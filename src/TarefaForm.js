@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, CheckBox, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
+import CheckBox from '@react-native-community/checkbox'
 import { GlobalStyles } from './styles/GlobalStyles'
 import Service from './service/tarefas'
 
@@ -25,12 +26,14 @@ export default function TarefaForm({ navigation }) {
 
                 <TextInput placeholder="descricao" 
                     style={GlobalStyles.input} 
+                    multiline={true} numberOfLines={3}
+                    maxLength={200}
                     onChangeText={field('description')}
                     value={data.description} />
 
                 <View style={styles.checkBox}>
                     <CheckBox value={data.done} 
-                        onChange={(value) => console.log(value)} />
+                        onValueChange={field('done')} />
                     <Text>Finalizada ?</Text>
                 </View>
 
@@ -45,7 +48,8 @@ export default function TarefaForm({ navigation }) {
 
 const styles = StyleSheet.create({
     checkBox: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        padding: 5
     },
     button: {
         width: '95%'
