@@ -32,9 +32,9 @@ export default function TarefaForm({ navigation }) {
                     value={data.description} />
 
                 <View style={styles.checkBox}>
-                    <CheckBox value={data.done} 
+                    <CheckBox value={data.done} style={styles.checkbox}
                         onValueChange={field('done')} />
-                    <Text>Finalizada ?</Text>
+                    <Text style={styles.label}>Finalizada ?</Text>
                 </View>
 
                 <TouchableOpacity style={[ GlobalStyles.btnDefault, styles.button ]}
@@ -49,9 +49,15 @@ export default function TarefaForm({ navigation }) {
 const styles = StyleSheet.create({
     checkBox: {
         flexDirection: 'row',
-        padding: 5
+        marginTop: 15
     },
     button: {
         width: '95%'
+    },
+    checkbox: {
+       alignSelf: 'center'
+    },
+    label: {
+        margin: 8
     }
 })
