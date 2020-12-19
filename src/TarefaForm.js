@@ -2,18 +2,20 @@ import React, { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
 import { GlobalStyles } from './styles/GlobalStyles'
-import Service from './service/tarefas'
 
 export default function TarefaForm({ navigation }) {
-    const [data, setData] = useState({ id: '', title: '', description: '', done: false })
+    const [data, setData] = useState({ title: '', description: '', done: false })
 
     const field = (field) => {
         return (value) => setData({...data, [field]: value })
     }
 
     const addTask = () => {
-        Service.add(data)
-        navigation.navigate('Tarefas', { added: true })
+        if (data.title == '' || data.description == '') {
+            return
+        }
+
+        navigation.navigate('Tarefas', { data, action: 'CREATE' })
         setData({ id: '', title: '', description: '', done: false })
     }
 

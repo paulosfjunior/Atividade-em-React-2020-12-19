@@ -3,38 +3,14 @@ import user from './user'
 
 const basePath = "http://18.188.122.22:8001/tasks"
 
-let tasks = []
-
-async function loadTasks() {
-    try {
-        let response = await axios.get(`${basePath}/${user.id}`)
-        tasks = response.data
-    } catch (err) {
-        console.warn(err.message)
-        tasks = []
-    }
+export function loadTasks() {
+    return axios.get(`${basePath}/${user.id}`)
 }
 
-function get() {
-    return tasks
+export function addTask(task) {
+    return axios.post(basePath, {...task, userId: user.id })
 }
 
-async function add(task) {
-    try {
-        let response = await axios.post(basePath, {...task, userId: user.id })
-        console.log(response)
-    } catch (err) {
-        console.warn(err.message)
-    }
-}
-
-function remove(taskId) {
-    tasks = tasks.filter(item => item.id != taskId)
-}
-
-export default {
-    get,
-    add,
-    remove,
-    loadTasks
+export function removeTask(userId, taskId) {
+    return axios.post(`${basePath}/${userId}/${taskId}`, {})
 }

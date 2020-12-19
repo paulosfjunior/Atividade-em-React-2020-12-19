@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TaskList from './Tarefas/TaskList'
 import TarefaForm from './TarefaForm'
 import { StyleSheet, Image } from 'react-native'
+import Service from './service/tarefas'
 
 const Tab = createBottomTabNavigator()
 
@@ -36,12 +37,18 @@ export default function Tasks({ navigation }) {
             headerRight: () => null
         })
     }, [navigation])
+    
+    const tabListeners = {
+        focus: (evt) => { console.log('user tasks') }
+    }
 
     return (
         <Tab.Navigator 
             tabBarOptions={bottomBarOptions} 
             screenOptions={options}>
-            <Tab.Screen name="Tarefas" component={TaskList} />
+            <Tab.Screen name="Tarefas" 
+                component={TaskList} 
+                listeners={tabListeners} />
             <Tab.Screen name="Adicionar" component={TarefaForm} />
         </Tab.Navigator>
     )

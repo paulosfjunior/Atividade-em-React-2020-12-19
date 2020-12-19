@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { View, Text, StatusBar, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StatusBar, TextInput, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native';
 import { GlobalStyles } from './styles/GlobalStyles'
 import { LoginStyles } from './LoginStyles'
 import service from './service/login'
