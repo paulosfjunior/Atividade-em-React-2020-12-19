@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Dimensions } from 'react-native'
 import CheckBox from '@react-native-community/checkbox'
 import { GlobalStyles } from './styles/GlobalStyles'
 
@@ -21,7 +21,9 @@ export default function TarefaForm({ navigation }) {
 
     return (
         <React.Fragment>
-            <View style={GlobalStyles.container}>
+            <KeyboardAvoidingView style={styles.container}
+                enabled={false}
+                behavior="padding">
                 <TextInput placeholder="tarefa" 
                     style={GlobalStyles.input} 
                     onChangeText={field('title')}
@@ -29,7 +31,7 @@ export default function TarefaForm({ navigation }) {
 
                 <TextInput placeholder="descricao" 
                     style={GlobalStyles.input} 
-                    multiline={true} numberOfLines={3}
+                    multiline={true} numberOfLines={2}
                     maxLength={200}
                     onChangeText={field('description')}
                     value={data.description} />
@@ -44,12 +46,20 @@ export default function TarefaForm({ navigation }) {
                     onPress={addTask}>
                     <Text style={GlobalStyles.btnDefaultText}>Salvar</Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
         </React.Fragment>
     )
 }
 
+const height = Dimensions.get("window").height
+
 const styles = StyleSheet.create({
+    container: {
+        height: height,
+        paddingTop: 10,
+        paddingLeft: 15,
+        backgroundColor: '#34D399'
+    },
     checkBox: {
         flexDirection: 'row',
         marginTop: 15

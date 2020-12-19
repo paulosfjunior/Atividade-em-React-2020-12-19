@@ -9,13 +9,14 @@ const styles = StyleSheet.create({
         padding: 10
     },
     itemTextHeader: {
-
+        fontWeight: 'bold',
+        color: '#065F46'
     },
     itemTextHeaderDone: {
         color: '#9CA3AF',
     },
     itemDescription: {
-
+        color: '#4B5563'
     },
     itemDescriptionDone: {
         textDecorationLine: 'line-through',
