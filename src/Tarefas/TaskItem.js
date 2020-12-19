@@ -14,7 +14,6 @@ function DelButton({ onDelete }) {
 export default function TaskItem({ data, delAction }) {
     const doneHStyle = data.done ? styles.itemTextHeaderDone : styles.itemTextHeader
     const doneStyle = data.done ? styles.itemDescriptionDone : styles.itemDescription
-    console.log('Item:', data)
     return (
         <Swipeable renderRightActions={() => (<DelButton onDelete={delAction} />) }>
             <View style={styles.item}>
