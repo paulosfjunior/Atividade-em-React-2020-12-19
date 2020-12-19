@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Login from './src/Login';
 import Registrar from './src/Registrar';
-import Tarefas from './src/Tarefas'
-import TarefaForm from './src/TarefaForm'
+import Tasks from './src/Tarefas'
+
 import { HeaderStyles } from './src/styles/AppStyles'
 
 const Stack = createStackNavigator()
@@ -24,13 +24,9 @@ const App: () => React$Node = () => {
                     component={Registrar} 
                     options={HeaderStyles.registrar} />
 
-                <Stack.Screen name="Tarefas" 
-                    component={Tarefas} 
+                <Stack.Screen name="TaskList" 
+                    component={Tasks} 
                     options={HeaderStyles.tarefas} />
-                
-                <Stack.Screen name="Formulario" 
-                    component={TarefaForm} 
-                    options={HeaderStyles.tarefaForm} />
                     
             </Stack.Navigator>
         </NavigationContainer>

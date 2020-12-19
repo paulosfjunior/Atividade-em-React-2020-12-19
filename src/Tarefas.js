@@ -1,122 +1,48 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
-import Service from './service/tarefas'
+import React, { useLayoutEffect } from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import TaskList from './Tarefas/TaskList'
+import TarefaForm from './TarefaForm'
+import { StyleSheet, Image } from 'react-native'
 
-function AddButton({ onAdd }) {
-    return (
-        <View style={styles.btnAdd}>
-            <TouchableOpacity onPress={onAdd}>
-                <Text style={styles.btnAddText}>Adicionar</Text>
-            </TouchableOpacity>
-        </View>
-    )
+const Tab = createBottomTabNavigator()
+
+const bottomBarOptions = {
+    activeTintColor: '#047857'
 }
 
-function DelButton({ onDelete }) {
-    return (
-        <TouchableOpacity style={styles.btnRemove} onPress={onDelete}>
-            <Text style={styles.btnRemoveText}>Remover</Text>
-        </TouchableOpacity>
-    )
+const btnStyles = StyleSheet.create({
+    btn: {
+        width: 28,
+        height: 28
+    }
+})
+
+const GearsIcon = () => (<Image source={require('./assets/gears.png')} style={btnStyles.btn} />)
+const AddIcon = () => (<Image source={require('./assets/add.png')} style={btnStyles.btn} />)
+
+const options = ({ route }) => {
+    return {
+        tabBarIcon: () => {
+            if (route.name == 'Adicionar') return <AddIcon />
+            return <GearsIcon />
+        }
+    }
 }
 
-function SeparatorItem() {
-    return (
-        <View style={styles.separator}></View>
-    )
-}
-
-function TaskItem({ data, delAction }) {
-    const doneHStyle = data.done ? styles.itemTextHeaderDone : styles.itemTextHeader
-    const doneStyle = data.done ? styles.itemDescriptionDone : styles.itemDescription
-
-    return (
-        <Swipeable renderRightActions={() => (<DelButton onDelete={delAction} />) }>
-            <View style={styles.item}>
-                <Text style={doneHStyle}>{data.title}</Text>
-                <Text style={doneStyle}>{data.description}</Text>
-            </View>
-        </Swipeable>
-    )
-}
-
-export default function Tarefas({ navigation, route }) {
-    const addAction = () => navigation.navigate('Formulario')
-    const [list, setList] = useState(Service.get())
-    const [removed, setRemoved] = useState('')
-
+export default function Tasks({ navigation }) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => null,
-            headerRight: () => <AddButton onAdd={addAction} />
+            headerRight: () => null
         })
     }, [navigation])
 
-    useEffect(() => setList(Service.get()), [route, removed])
-
-    // remove item da lista e notifica mudanca na lista
-    const delAction = (id) => {
-        return () => {
-            Service.remove(id)
-            setRemoved(id)
-        }
-    }
-
     return (
-        <React.Fragment>
-            <FlatList 
-                data={list}
-                keyExtractor={item => item.id}
-                renderItem={ ({ item }) => <TaskItem data={item} delAction={delAction(item.id)} />}
-                ItemSeparatorComponent={() => <SeparatorItem />}
-            />
-        </React.Fragment>
+        <Tab.Navigator 
+            tabBarOptions={bottomBarOptions} 
+            screenOptions={options}>
+            <Tab.Screen name="Tarefas" component={TaskList} />
+            <Tab.Screen name="Adicionar" component={TarefaForm} />
+        </Tab.Navigator>
     )
 }
-
-const styles = StyleSheet.create({
-    separator: {
-        borderBottomWidth: 1,
-        borderColor: '#dedede'
-    },
-    item: {
-        padding: 10
-    },
-    itemTextHeader: {
-
-    },
-    itemTextHeaderDone: {
-        color: '#9CA3AF',
-    },
-    itemDescription: {
-
-    },
-    itemDescriptionDone: {
-        textDecorationLine: 'line-through',
-        color: '#9CA3AF'
-    },
-    btnAdd: {
-        borderRadius: 25,
-        marginRight: 10,
-        padding: 10,
-        textAlign: 'center',
-        backgroundColor: '#fee'
-    },
-    btnAddText: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        color: '#065F46'
-    },
-    btnRemove: {
-        backgroundColor: 'red',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    btnRemoveText: {
-        color: '#fff',
-        fontSize: 12,
-        padding: 10
-    }
-
-})
