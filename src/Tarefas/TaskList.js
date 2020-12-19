@@ -6,11 +6,23 @@ import Service from '../service/tarefas'
 
 const SeparatorItem = () => (<View style={styles.separator}></View>)
 
+const EmptyList = () => (
+    <View>
+        <Text>Você não possui tarefas no momento.</Text>
+    </View>
+)
+
 export default function TaskList({ navigation, route }) {
+    const [loaded, setLoaded] = useState(false)
     const [list, setList] = useState(Service.get())
     const [removed, setRemoved] = useState('')
 
-    useEffect(() => setList(Service.get()), [route, removed])
+    useEffect(() => {
+        setLoaded(false)
+        Service.loadTasks()
+        setList(Service.get())
+        setLoaded(true)
+    }, [route, removed, loaded])
 
     // remove item da lista e notifica mudanca na lista
     const delAction = (id) => {
@@ -20,12 +32,13 @@ export default function TaskList({ navigation, route }) {
         }
     }
 
-    return (
-        <FlatList 
-            data={list}
-            keyExtractor={item => item.id}
-            renderItem={ ({ item }) => <TaskItem data={item} delAction={delAction(item.id)} />}
-            ItemSeparatorComponent={() => <SeparatorItem />}
+    console.log('Tasks:', list)
+    const child = (list.size < 1) ? <EmptyList /> : <FlatList 
+        data={list}
+        keyExtractor={item => item.id}
+        renderItem={ ({ item }) => <TaskItem data={item} delAction={delAction(item.id)} />}
+        ItemSeparatorComponent={() => <SeparatorItem />}
         />
-    )
+
+    return child
 }

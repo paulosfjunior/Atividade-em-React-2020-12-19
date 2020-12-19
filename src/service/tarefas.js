@@ -1,18 +1,31 @@
+import axios from 'axios'
+import user from './user'
 
-let tasks = [
-    { id: '1234567', title: 'Tarefa 1', done: false, description: 'Dockerizar a API do backend.' },
-    { id: '7654321', title: 'Tarefa 2', done: true, description: 'Desenvolver a API de backend do App.' },
-    { id: '2459835', title: 'Tarefa 3', done: false, description: 'Realizar os testes da API.' },
-    { id: '7649820', title: 'Tarefa 4', done: false, description: 'Disponibilizar o endpoint da API para a turma.' }
-]
+const basePath = "http://18.188.122.22:8001/tasks"
 
-function get() {
-    return [...tasks]
+let tasks = []
+
+async function loadTasks() {
+    try {
+        let response = await axios.get(`${basePath}/${user.id}`)
+        tasks = response.data
+    } catch (err) {
+        console.warn(err.message)
+        tasks = []
+    }
 }
 
-function add(task) {
-    task.id = '' + Math.floor(Math.random() * Math.floor(1000))
-    tasks = [...tasks, task]
+function get() {
+    return tasks
+}
+
+async function add(task) {
+    try {
+        let response = await axios.post(basePath, {...task, userId: user.id })
+        console.log(response)
+    } catch (err) {
+        console.warn(err.message)
+    }
 }
 
 function remove(taskId) {
@@ -22,5 +35,6 @@ function remove(taskId) {
 export default {
     get,
     add,
-    remove
+    remove,
+    loadTasks
 }

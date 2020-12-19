@@ -13,7 +13,8 @@ export default function TarefaForm({ navigation }) {
 
     const addTask = () => {
         Service.add(data)
-        navigation.navigate('Tarefas', { id: data.id })
+        navigation.navigate('Tarefas', { added: true })
+        setData({ id: '', title: '', description: '', done: false })
     }
 
     return (
