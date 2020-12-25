@@ -8,7 +8,7 @@ export function loadTasks() {
 }
 
 export function addTask(task) {
-    return axios.post(basePath, {...task, userId: user.id })
+    return axios.post(basePath, { ...task, userId: user.id })
 }
 
 export function removeTask(userId, taskId) {

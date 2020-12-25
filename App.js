@@ -12,25 +12,25 @@ const Stack = createStackNavigator()
 
 // disable Navigation header => headerMode="none"
 const App: () => React$Node = () => {
-    const initialRoute = (user.id != '' ? "TaskList" : "Login")
-    return (
+  const initialRoute = (user.id != '' ? "ListaTarefas" : "Login")
+  return (
     <>
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName={initialRoute}>  
-                <Stack.Screen name="Login" 
-                    component={Login} 
-                    options={HeaderStyles.login} />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={initialRoute}>
+          <Stack.Screen name="Login"
+            component={Login}
+            options={HeaderStyles.login} />
 
-                <Stack.Screen name="Registrar" 
-                    component={Registrar} 
-                    options={HeaderStyles.registrar} />
+          <Stack.Screen name="Registrar"
+            component={Registrar}
+            options={HeaderStyles.registrar} />
 
-                <Stack.Screen name="TaskList" 
-                    component={Tasks} 
-                    options={HeaderStyles.tarefas} />
-                    
-            </Stack.Navigator>
-        </NavigationContainer>
+          <Stack.Screen name="ListaTarefas"
+            component={Tasks}
+            options={HeaderStyles.tarefas} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 }

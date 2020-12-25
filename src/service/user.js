@@ -1,4 +1,3 @@
-
 const user = {
     id: '',
     name: ''
